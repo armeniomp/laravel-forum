@@ -27,8 +27,26 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('threadsCount', function ($builder) {
+            $builder->withCount('threads');
+        });
+
+        static::addGlobalScope('repliesCount', function ($builder) {
+            $builder->withCount('replies');
+        });
+    }
+
     public function threads()
     {
         return $this->hasMany(Thread::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
     }
 }

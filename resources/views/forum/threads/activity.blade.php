@@ -7,8 +7,14 @@
         {{ session('status') }}
     </div>
 @endif
-
-<h1 class="text-white text-center">Latest Activity</h1>
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex flex-row justify-content-between">
+            <h1 class="text-white">Latest Activity</h1>
+            {{ $threads->links() }}
+        </div>
+    </div>
+</div>
 
 <div class="row">
     @foreach($threads as $thread)

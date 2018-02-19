@@ -7,39 +7,70 @@
         {{ session('status') }}
     </div>
 @endif
-
 <div class="row">
-    <div class="col-md-8 col-sm-12">
+    <div class="col-12">
+        <h2 class="text-white">
+            {{ $thread->title }}
+        </h2>
+        <span class="text-white">
+            Posted by 
+            <a href="/user/{{ $thread->user->id }}">{{ $thread->user->name }}</a> 
+            {{ $thread->created_at->toFormattedDateString() }} 
+            in 
+            <a href="/forum/{{ $thread->category->name }}">{{ $thread->category->name }}</a>
+        </span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
         <div class="card border-dark text-white bg-dark mb-3">
 
-            <div class="card-header">
-                <h5 class="card-title">{{ $thread->title }}</h5>
-            </div>
+            <div class="d-flex flex-row">
+                
+                <div class="card-header text-center w-25">
+                    <h5>
+                        <a href="/user/{{ $thread->user->id }}">
+                            {{ $thread->user->name }}
+                        </a>
+                    </h5>
 
-            <div class="card-body">
-                <p class="card-text">
-                    {{ $thread->body }}
-                </p>
-            </div>
+                    <img src="https://lorempixel.com/100/100/" class="rounded-circle">
+                    <p>Member</p>
+                    <small>{{ $thread->user->replies_count + $thread->user->threads_count }} {{ str_plural('post', $thread->user->replies_count + $thread->user->threads_count) }}</small>
+                    
+                </div>
 
-            <div class="card-footer">
-                <a href="/user/{{ $thread->user->id }}">
-                    <small class="text-muted">{{ $thread->user->name }}</small>
-                </a>
-                <small class="text-muted float-right">{{ $thread->created_at->diffForHumans() }}</small>
+                <div class="d-flex flex-column w-75">
+
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ $thread->body }}
+                        </p>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="float-right">
+                            {{ $thread->created_at->diffForHumans() }}
+                        </span>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
         <div class="card border-dark text-white bg-dark mb-3">
+
             @if ($replies->hasPages())
                 <div class="card-header">
                     {{ $replies->links() }}
                 </div>
             @endif
+
             @foreach($replies as $reply)
                 @include('forum.threads.reply')
             @endforeach
+
             @if ($replies->hasPages())
                 <div class="card-header">
                     {{ $replies->links() }}
@@ -63,12 +94,5 @@
 
     </div>
 
-    <div class="col-md-4 col-sm-12">
-        <div class="card border-dark bg-secondary text-white">
-            <div class="card-body">
-                <p>sdfsdf</p>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection

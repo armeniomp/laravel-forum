@@ -1,12 +1,31 @@
-<div class="card-footer border-bottom border-secondary">
-    <a href="/user/{{ $reply->user->id }}">
-        <span class="text-muted">{{ $reply->user->name }}</span>
-    </a>
-    <span class="text-muted float-right">{{ $reply->created_at->diffForHumans() }}</span>
-</div>
+<div class="d-flex flex-row border border-secondary">
+                
+        <div class="card-header text-center w-25">
+            <h5>
+                <a href="/user/{{ $reply->user->id }}">
+                    {{ $reply->user->name }}
+                </a>
+            </h5>
 
-<div class="card-body border-bottom border-secondary">
-    <p class="card-text">
-        {{ $reply->body }}
-    </p>
-</div>
+            <img src="https://lorempixel.com/100/100/" class="rounded-circle">
+            <p>Member</p>
+            <small>{{ $reply->user->replies_count + $reply->user->threads_count }} {{ str_plural('post', $reply->user->replies_count + $reply->user->threads_count) }}</small>
+            
+        </div>
+
+        <div class="d-flex flex-column w-75">
+
+            <div class="card-body">
+                <p class="card-text">
+                    {{ $reply->body }}
+                </p>
+            </div>
+            
+            <div class="card-footer">
+                <span class="float-right">
+                    {{ $reply->created_at->diffForHumans() }}
+                </span>
+            </div>
+        </div>
+
+    </div>

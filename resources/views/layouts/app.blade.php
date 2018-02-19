@@ -16,20 +16,20 @@
 <body class="bg-secondary">
     <div id="app">
 
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
             <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Laravel') }}</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="container d-flex flex-column flex-md-row justify-content-center navbar-nav">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/forum">Forum</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/passmanager">Password Manager</a>
-                        </li>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="container d-flex flex-column flex-sm-row justify-content-center navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/forum">Forum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/passmanager">Password Manager</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     @guest
@@ -54,14 +54,20 @@
             </div>
         </nav>
 
-        <nav class="nav nav-pills justify-content-center">
-            <a class="nav-item nav-link text-light" href="/forum">Browse</a>
-            <a class="nav-item nav-link text-light" href="/forum/threads/latest">Latest Threads</a>
-            <a class="nav-item nav-link text-light" href="/forum/threads/activity">Latest Activity</a>
-            @if (auth()->check())
-            <a class="nav-item nav-link text-light" href="/forum/threads/filter?by={{ auth()->user()->name }}">My Threads</a>
-            <a class="nav-item nav-link text-light" href="/forum/threads/create">New Thread</a>
-            @endif
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#secondaryNav" aria-controls="secondaryNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Navigation Options
+            </button>
+            <div class="collapse navbar-collapse justify-content-center bg-secondary" id="secondaryNav">
+                <a class="nav-item nav-link text-light" href="/forum">Browse</a>
+                <a class="nav-item nav-link text-light" href="/forum/threads/latest">Latest Threads</a>
+                <a class="nav-item nav-link text-light" href="/forum/threads/activity">Latest Activity</a>
+                <a class="nav-item nav-link text-light" href="/forum/threads/popular">Popular Threads</a>
+                @if (auth()->check())
+                    <a class="nav-item nav-link text-light" href="/forum/threads/filter?by={{ auth()->user()->name }}">My Threads</a>
+                    <a class="nav-item nav-link text-light" href="/forum/threads/create">New Thread</a>
+                @endif
+            </div>
         </nav>
 
 

@@ -42,7 +42,7 @@ class ThreadController extends Controller
      */
     public function latest()
     {
-        $threads = Thread::latest()->get();
+        $threads = Thread::latest()->paginate(20);
 
         return view('forum.threads.list', compact('threads'));
     }
@@ -54,7 +54,7 @@ class ThreadController extends Controller
      */
     public function search(ThreadFilters $filters)
     {
-        $threads = Thread::filter($filters)->get();
+        $threads = Thread::filter($filters)->paginate(20);
         $searchTerms = $filters->terms();
         
         return view('forum.threads.list', compact('threads', 'searchTerms'));
@@ -67,7 +67,7 @@ class ThreadController extends Controller
      */
     public function activity()
     {
-        $threads = Thread::orderBy('updated_at', 'desc')->with('latestReply')->get();
+        $threads = Thread::orderBy('updated_at', 'desc')->with('latestReply')->paginate(20);
 
         return view('forum.threads.activity', compact('threads'));
     }

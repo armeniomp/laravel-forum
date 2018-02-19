@@ -8,7 +8,7 @@
     </div>
 @endif
 
-<h1 class="text-white text-center">Browse</h1>
+<h1 class="text-white">Browse</h1>
 
 <div class="row">
     <div class="col-12">
@@ -22,14 +22,14 @@
                         @foreach ($category->children as $subcategory)
                             <li class="list-group-item bg-dark">
                                 <a href="/forum/{{ $subcategory->slug }}">{{ $subcategory->name }}</a>
-                                <span class="badge badge-secondary badge-pill float-right mx-2">
+                                <p class="badge badge-secondary badge-pill float-right mx-2">
                                     {{ $subcategory->replies_count }} 
                                     {{ str_plural('comment', $subcategory->replies_count) }}
-                                </span> 
-                                <span class="badge badge-secondary badge-pill float-right mx-2">
+                                </p> 
+                                <p class="badge badge-secondary badge-pill float-right mx-2">
                                     {{ $subcategory->threads_count }} 
                                     {{ str_plural('thread', $subcategory->threads_count) }}
-                                </span> 
+                                </p> 
                             </li>
                         @endforeach
                     </ul>

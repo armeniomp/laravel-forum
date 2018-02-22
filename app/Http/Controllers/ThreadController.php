@@ -11,7 +11,7 @@ class ThreadController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show', 'activity', 'latest']);
+        $this->middleware('auth')->except(['index', 'show', 'activity', 'latest', 'search']);
     }
 
     /**
@@ -36,7 +36,7 @@ class ThreadController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource ordered by date.
      *
      * @return \Illuminate\Http\Response
      */
@@ -48,13 +48,19 @@ class ThreadController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource filtered by the request.
      *
+     * @param \App\Filters\ThreadFilters
      * @return \Illuminate\Http\Response
      */
     public function search(ThreadFilters $filters)
     {
-        $threads = Thread::filter($filters)->paginate(20);
+        $threads = Thread::latest()->filter($filters)->paginate(20);
+
+        if (request()->wantsJson()) {
+            return $threads;
+        }
+
         $searchTerms = $filters->terms();
         
         return view('forum.threads.list', compact('threads', 'searchTerms'));

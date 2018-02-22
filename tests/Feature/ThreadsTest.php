@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -55,8 +54,23 @@ class ThreadsTest extends TestCase
 
         $anotherThread = create('App\Thread');
 
-        $this->get("forum/threads/filter?by=" . $user->name)
+        $this->get('forum/threads/filter?by=' . $user->name)
             ->assertSee($this->thread->title)
             ->assertDontSee($anotherThread->title);
+    }
+
+    public function testFilterThreadsByPopularity()
+    {
+        $threadWith2replies = create('App\Thread');
+        create('App\Reply', ['thread_id' => $threadWith2replies->id], 2);
+
+        $popularThread = create('App\Thread');
+        create('App\Reply', ['thread_id' => $popularThread->id], 3);
+
+        $threadWith0replies = create('App\Thread');
+
+        $response = $this->getJson('forum/threads/filter?popularity=popular')->json();
+
+        $this->assertEquals([3, 2, 0, 0], array_column($response['data'], 'replies_count'));
     }
 }

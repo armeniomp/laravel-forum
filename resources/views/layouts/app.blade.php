@@ -62,7 +62,7 @@
                 <a class="nav-item nav-link text-light" href="/forum">Browse</a>
                 <a class="nav-item nav-link text-light" href="/forum/threads/latest">Latest Threads</a>
                 <a class="nav-item nav-link text-light" href="/forum/threads/activity">Latest Activity</a>
-                <a class="nav-item nav-link text-light" href="/forum/threads/popular">Popular Threads</a>
+                <a class="nav-item nav-link text-light" href="/forum/threads/filter?popularity=popular">Popular Threads</a>
                 @if (auth()->check())
                     <a class="nav-item nav-link text-light" href="/forum/threads/filter?by={{ auth()->user()->name }}">My Threads</a>
                     <a class="nav-item nav-link text-light" href="/forum/threads/create">New Thread</a>

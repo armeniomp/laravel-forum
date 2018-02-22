@@ -1,4 +1,4 @@
-<div class="d-flex flex-row border border-secondary">
+<div class="d-flex flex-row border-bottom border-secondary">
                 
         <div class="card-header text-center w-25">
             <h5>

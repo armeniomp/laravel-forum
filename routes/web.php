@@ -33,8 +33,10 @@ Route::prefix('forum')->group(function () {
         Route::get('/{category}/{thread}', 'ThreadController@show');
         Route::post('/', 'ThreadController@store');
         Route::post('/{category}/{thread}/replies', 'ReplyController@store');
+        Route::post('/{thread}/like', 'FavoriteController@storeThread');
 
     });
 
+    Route::post('replies/{reply}/like', 'FavoriteController@storeReply');
 });
 

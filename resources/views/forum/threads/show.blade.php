@@ -24,10 +24,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card border-dark text-white bg-dark mb-3">
-
             <div class="d-flex flex-row">
                 
                 <div class="card-header text-center w-25">
+
                     <h5>
                         <a href="/user/{{ $thread->user->id }}">
                             {{ $thread->user->name }}
@@ -35,28 +35,65 @@
                     </h5>
 
                     <img src="https://lorempixel.com/100/100/" class="rounded-circle">
+
                     <p>Member</p>
-                    <small>{{ $thread->user->replies_count + $thread->user->threads_count }} {{ str_plural('post', $thread->user->replies_count + $thread->user->threads_count) }}</small>
-                    
+
+                    <p>
+                        <small>
+                            {{ $thread->user->posts }} 
+                            {{ str_plural('post', $thread->user->posts) }}
+                        </small>
+                    </p>
+
+                    <p>
+                        <small>
+                            {{ $thread->user->favorites }} 
+                            {{ str_plural('like', $thread->user->favorites) }}
+                        </small>
+                    </p>
                 </div>
 
                 <div class="d-flex flex-column w-75">
+                    
+                    <div class="card-body d-flex flex-column">
 
-                    <div class="card-body">
+                        <div class="pb-2">
+                            <span>
+                                {{ $thread->created_at->diffForHumans() }}
+                            </span>
+                        </div>
+
                         <p class="card-text">
                             {{ $thread->body }}
                         </p>
+
                     </div>
 
                     <div class="card-footer">
-                        <span class="float-right">
-                            {{ $thread->created_at->diffForHumans() }}
-                        </span>
+                        <div class="d-flex justify-content-end">
+                            @if(!$thread->isOwner())
+                                <form method="POST" action="/forum/threads/{{ $thread->id }}/like">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-{{ $thread->isFavorited() ? '' : 'outline-' }}success">
+                                        <span class="badge badge-light">
+                                            {{ $thread->favorites()->count() }}
+                                        </span>
+                                        Like
+                                    </button>
+                                </form>
+                            @else
+                                <button type="button" class="btn btn-outline-success">
+                                    <span class="badge badge-light">
+                                        {{ $thread->favorites()->count() }}
+                                    </span>
+                                    Like
+                                </button>
+                            @endif
+                        </div>
                     </div>
+
                 </div>
-
             </div>
-
         </div>
 
         <div class="card border-dark text-white bg-dark mb-3">
@@ -78,7 +115,7 @@
             @endif
         </div>
         
-        @if(auth()->check())
+        @auth
             <form method="POST" action="{{ $thread->path() . '/replies' }}">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -90,7 +127,7 @@
             </form>
         @else
             <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to reply to this thread.</p>
-        @endif
+        @endauth
 
     </div>
 

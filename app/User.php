@@ -31,12 +31,8 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::addGlobalScope('threadsCount', function ($builder) {
-            $builder->withCount('threads');
-        });
-
-        static::addGlobalScope('repliesCount', function ($builder) {
-            $builder->withCount('replies');
+        static::addGlobalScope('counts', function ($builder) {
+            $builder->withCount('threads', 'replies', 'favoritesThreads', 'favoritesReplies');
         });
     }
 
@@ -48,5 +44,27 @@ class User extends Authenticatable
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    public function favoritesThreads()
+    {
+        return $this->hasManyThrough(Favorite::class, Thread::class, 'user_id', 'favorite_id', 'id', 'id')
+                        ->where('favorite_type', 'App\Thread');
+    }
+
+    public function favoritesReplies()
+    {
+        return $this->hasManyThrough(Favorite::class, Reply::class, 'user_id', 'favorite_id', 'id', 'id')
+                        ->where('favorite_type', 'App\Reply');
+    }
+
+    public function getPostsAttribute()
+    {
+        return $this->threads_count + $this->replies_count;
+    }
+
+    public function getFavoritesAttribute()
+    {
+        return $this->favorites_threads_count + $this->favorites_replies_count;
     }
 }

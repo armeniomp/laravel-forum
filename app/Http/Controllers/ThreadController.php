@@ -50,7 +50,7 @@ class ThreadController extends Controller
     /**
      * Display a listing of the resource filtered by the request.
      *
-     * @param \App\Filters\ThreadFilters
+     * @param \App\Filters\ThreadFilters $filters
      * @return \Illuminate\Http\Response
      */
     public function search(ThreadFilters $filters)
@@ -88,7 +88,7 @@ class ThreadController extends Controller
         return view('forum.threads.create');
     }
 
-    /**`
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
